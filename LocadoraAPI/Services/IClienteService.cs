@@ -1,4 +1,5 @@
 ﻿using LocadoraAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LocadoraAPI.Services
 {
@@ -7,7 +8,7 @@ namespace LocadoraAPI.Services
         Cliente AddCliente(Cliente cliente);
         Cliente FindByID(int id);
         Cliente FindByName(string name);
-        List<Cliente> GetAll();
+        //Task<<IActionResult>List<Cliente>> GetAll();
         void DeleteCliente(int id); 
 
     }

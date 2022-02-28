@@ -1,26 +1,27 @@
+using LocadoraAPI.Context;
 using LocadoraAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace LocadoraAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
     public class ClienteController : ControllerBase
-    {        
-        private readonly ILogger<ClienteController> _logger;
-        private IClienteService _clienteService;
+    {
+        private readonly LocadoraAPIContext _context;
 
-        public ClienteController(ILogger<ClienteController> logger, IClienteService clienteService)
+        public ClienteController(LocadoraAPIContext context)
         {
-            _logger = logger;
-            _clienteService = clienteService;
+            _context = context; 
         }
 
         [HttpGet("get-all")]
-        public IActionResult GetAllCliente()
+        public async Task<IActionResult> GetAllCliente()
         {
+            var todosClientes = await _context.Clientes.AsNoTracking().ToListAsync();
 
-            return Ok(_clienteService.GetAll());
+            return Ok(todosClientes);
         }
     }
 }
