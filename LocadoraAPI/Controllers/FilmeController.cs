@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LocadoraAPI.Controllers
 {
-    public class FilmeController : Controller
+    [ApiController]
+    [Route("[controller]")]
+    public class FilmeController : ControllerBase
     {
         private readonly LocadoraAPIContext _context;
 
