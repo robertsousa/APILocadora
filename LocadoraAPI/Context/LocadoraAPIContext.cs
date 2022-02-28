@@ -16,5 +16,6 @@ namespace LocadoraAPI.Context
         }
 
         public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Filme> Filmes { get; set; }
     }
 }

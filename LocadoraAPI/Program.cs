@@ -7,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<LocadoraAPIContext>(options =>
     options.UseInMemoryDatabase("Clientes"));
+builder.Services.AddDbContext<LocadoraAPIContext>(options =>
+    options.UseInMemoryDatabase("Filmes"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
