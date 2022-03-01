@@ -60,7 +60,41 @@ namespace LocadoraAPI.Controllers
             _context.Locacaos.Add(novaLocacao);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Locação efetuada.");
+        }
+
+        [HttpPut("dev-locacao/{id}")]
+        public async Task<ActionResult> PutDevLocacaoById(int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            Locacao locacaoADevolver = await _context.Locacaos.FindAsync(id);
+
+            Filme filmeLocado = await _context.Filmes.FindAsync(locacaoADevolver.IdFilme);
+
+            if (locacaoADevolver == null)
+            {
+                return BadRequest("Locação não encontrada. ");
+            }
+
+            if (locacaoADevolver != null)
+            {
+                DateTime dataAtual = DateTime.Now;
+                if(dataAtual > locacaoADevolver.DataDevolucao)
+                {
+                    filmeLocado.IsLeased = false;
+                    _context.SaveChanges();
+                    return Ok("Devolução efetuada com atraso.");
+                }
+
+                filmeLocado.IsLeased = false;
+                _context.SaveChanges();
+            }
+
+            return Ok("Devolução efetuada.");
         }
     }
 }
