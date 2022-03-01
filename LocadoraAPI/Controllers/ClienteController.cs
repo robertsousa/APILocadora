@@ -34,6 +34,15 @@ namespace LocadoraAPI.Controllers
                 return BadRequest();
             }
 
+            Cliente cliente = await context.Clientes.FindAsync(clienteView.ID);
+
+            //Filme filmeLocado = await _context.Filmes.FindAsync(locacao.IdFilme);
+
+            if (cliente == null || cliente.ID == cliente.ID)
+            {
+                return BadRequest("O Cliente já está cadastrado. ");
+            }
+           
             var newCliente = new Cliente
             {
                 ID = clienteView.ID,
@@ -58,9 +67,20 @@ namespace LocadoraAPI.Controllers
         [HttpDelete("del-client/{id}")]
         public async Task<ActionResult> DeleteClientById(int id)
         {
-           // var client = await _context.Clientes.Remove(id);
+            Cliente clienteARemover = await _context.Clientes.FindAsync(id);
 
-            return Ok();
+            if (clienteARemover.IsActive == false)
+            {
+                return Ok("O Cliente já está desativado. ");
+            }
+
+            if (clienteARemover != null)
+            {
+                clienteARemover.IsActive = false;
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok("Cliente desativado.");
         }
     }
 }

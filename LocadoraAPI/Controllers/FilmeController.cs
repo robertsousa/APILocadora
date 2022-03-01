@@ -40,7 +40,8 @@ namespace LocadoraAPI.Controllers
             {
                 Id = filmeView.Id,
                 Title = filmeView.Title,    
-                IsLeased = filmeView.IsLeased
+                IsLeased = filmeView.IsLeased,
+                IsActive = filmeView.IsActive
             };
 
             _context.Filmes.Add(novoFilme);
@@ -60,7 +61,18 @@ namespace LocadoraAPI.Controllers
         [HttpDelete("del-movie/{id}")]
         public async Task<ActionResult> DeleteFilmeById(int id)
         {
-            // var client = await _context.Clientes.Remove(id);
+            Filme filmeARemover = await _context.Filmes.FindAsync(id);
+
+            if (filmeARemover.IsLeased == true)
+            {
+                return Ok("O Filme está alugado. ");
+            }
+
+            if (filmeARemover != null)
+            {
+                filmeARemover.IsActive = false;
+                await _context.SaveChangesAsync();
+            }
 
             return Ok();
         }
