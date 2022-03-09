@@ -36,8 +36,6 @@ namespace LocadoraAPI.Controllers
 
             Cliente cliente = await context.Clientes.FindAsync(clienteView.ID);
 
-            //Filme filmeLocado = await _context.Filmes.FindAsync(locacao.IdFilme);
-
             if (cliente == null || cliente.ID == cliente.ID)
             {
                 return BadRequest("O Cliente já está cadastrado. ");
@@ -53,7 +51,7 @@ namespace LocadoraAPI.Controllers
             _context.Clientes.Add(newCliente);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Cliente adicionado...");
         }
 
         [HttpGet("get-client/{id}")]
