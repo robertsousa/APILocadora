@@ -16,7 +16,7 @@ namespace LocadoraAPI.Controllers
             _context = context;
         }
 
-
+        //Retorna todas as locações
         [HttpGet("get-all")]
         public async Task<ActionResult> GetAllLocation()
         {
@@ -25,6 +25,7 @@ namespace LocadoraAPI.Controllers
             return Ok(allMovies);
         }
 
+        //Adiciona um locação
         [HttpPost("add-locacao")]
         public async Task<ActionResult> PostLocacao(
             [FromServices] LocadoraAPIContext context,
@@ -47,6 +48,7 @@ namespace LocadoraAPI.Controllers
                 filmeLocado.IsLeased = true;
             }
 
+            //Dados da nova locação
             var novaLocacao = new Locacao
             {
                 Id = locacao.Id,
@@ -63,14 +65,10 @@ namespace LocadoraAPI.Controllers
             return Ok("Locação efetuada.");
         }
 
+        //Devolução da locação por id
         [HttpPut("dev-locacao/{id}")]
         public async Task<ActionResult> PutDevLocacaoById(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             Locacao locacaoADevolver = await _context.Locacaos.FindAsync(id);
 
             Filme filmeLocado = await _context.Filmes.FindAsync(locacaoADevolver.IdFilme);
@@ -82,6 +80,7 @@ namespace LocadoraAPI.Controllers
 
             if (locacaoADevolver != null)
             {
+                //Verifica se a devolução esta atrasada
                 DateTime dataAtual = DateTime.Now;
                 if(dataAtual > locacaoADevolver.DataDevolucao)
                 {
