@@ -16,6 +16,7 @@ namespace LocadoraAPI.Controllers
             _context = context; 
         }
 
+        //Retorna todos os clientes cadastrados
         [HttpGet("get-all")]
         public async Task<ActionResult> GetAllCliente()
         {
@@ -24,6 +25,7 @@ namespace LocadoraAPI.Controllers
             return Ok(todosClientes);
         }
 
+        //Adiciona um novo cliente, aborta e comunica que se o cliente ja existir
         [HttpPost("add-client")]
         public async Task<ActionResult> PostClient(
             [FromServices] LocadoraAPIContext context, 
@@ -36,11 +38,13 @@ namespace LocadoraAPI.Controllers
 
             Cliente cliente = await context.Clientes.FindAsync(clienteView.ID);
 
-            if (cliente == null || cliente.ID == cliente.ID)
+            //Verifica se o cliente ja existe
+            if ( cliente.ID == cliente.ID)
             {
                 return BadRequest("O Cliente já está cadastrado. ");
             }
            
+            //Novo cliente
             var newCliente = new Cliente
             {
                 ID = clienteView.ID,
@@ -54,14 +58,20 @@ namespace LocadoraAPI.Controllers
             return Ok("Cliente adicionado...");
         }
 
+        //Seleciona o cliente por ID
         [HttpGet("get-client/{id}")]
         public async Task<ActionResult> GetClientById(int id)
         {
             var client = await _context.Clientes.FindAsync(id);
 
+            if(client == null)
+            {
+                return BadRequest("Cliente não encontrado.");
+            }
             return Ok(client);
         }
 
+        //Desativa um cliente por ID
         [HttpDelete("del-client/{id}")]
         public async Task<ActionResult> DeleteClientById(int id)
         {
