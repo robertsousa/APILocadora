@@ -13,6 +13,7 @@ namespace LocadoraAPI.Context
                     return;
                 }
 
+                //Adiciona clientes
                 context.Clientes.AddRange(
                     new Cliente
                     {
@@ -49,6 +50,7 @@ namespace LocadoraAPI.Context
 
                 context.SaveChanges();
 
+                //Adiciona filmes
                 context.Filmes.AddRange(
                     new Filme
                     {
@@ -123,6 +125,7 @@ namespace LocadoraAPI.Context
 
                 context.SaveChanges();
 
+                //Adiciona locação
                 context.Locacaos.AddRange(
                     new Locacao
                     {
