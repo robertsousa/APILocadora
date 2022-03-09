@@ -66,7 +66,7 @@ namespace LocadoraAPI.Controllers
 
             if(client == null)
             {
-                return BadRequest("Cliente não encontrado.");
+                return NotFound("Cliente não encontrado.");
             }
             return Ok(client);
         }

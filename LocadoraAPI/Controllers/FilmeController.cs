@@ -17,7 +17,7 @@ namespace LocadoraAPI.Controllers
             _context = context;
         }
 
-
+        //Retorna todos os filmes
         [HttpGet("get-all")]
         public async Task<ActionResult> GetAllMovie()
         {
@@ -26,6 +26,7 @@ namespace LocadoraAPI.Controllers
             return Ok(allMovies);
         }
 
+        //Adiciona um novo filme 
         [HttpPost("add-movie")]
         public async Task<ActionResult> PostFilme(
             [FromServices] LocadoraAPIContext context,
@@ -36,6 +37,7 @@ namespace LocadoraAPI.Controllers
                 return BadRequest();
             }
 
+            //Novo filme
             var novoFilme = new Filme
             {
                 Id = filmeView.Id,
@@ -50,14 +52,19 @@ namespace LocadoraAPI.Controllers
             return Ok();
         }
 
+        //Retorna um filme por ID
         [HttpGet("get-movie/{id}")]
         public async Task<ActionResult> GetFilmeById(int id)
         {
             var filme = await _context.Filmes.FindAsync(id);
 
+            if(filme == null)
+                return NotFound();
+
             return Ok(filme);
         }
 
+        //Destiva um filme por Id
         [HttpDelete("del-movie/{id}")]
         public async Task<ActionResult> DeleteFilmeById(int id)
         {
